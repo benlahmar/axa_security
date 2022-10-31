@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.entities.Role;
 import com.example.demo.entities.User;
+import com.example.demo.repo.IRole;
 import com.example.demo.repo.IUser;
 
 @RestController
@@ -17,6 +19,8 @@ public class UserAuth {
 
 	@Autowired
 	IUser urepo;
+	@Autowired
+	IRole rrepo;
 	
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -24,7 +28,9 @@ public class UserAuth {
 	@PostMapping("/users")
 	public User add(@RequestBody User u)
 	{
-		u.setPassword(bCryptPasswordEncoder.encode(u.getPassword()));
+		u.setPassword(
+				bCryptPasswordEncoder.encode(
+						u.getPassword()));
 		
 		return urepo.save(u);
 	}
@@ -35,9 +41,16 @@ public class UserAuth {
 		return "hello";
 	}
 	
-	@GetMapping("/users")
+	@GetMapping("/admin/users")
 	public List<User> get()
 	{
 		return urepo.findAll();
 	}
+	
+	@GetMapping("/dba/roles")
+	public List<Role> getroles()
+	{
+		return rrepo.findAll();
+	}
+	
 }

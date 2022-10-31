@@ -15,24 +15,23 @@ public class Userd extends User implements UserDetails{
 		this.password=u.password;
 		this.roles=u.roles;
 	}
-	
-	public Userd() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		List<GrantedAuthority> gts=new ArrayList<GrantedAuthority>();
+	public Collection<? extends GrantedAuthority> 
+	   getAuthorities() {
+	List<GrantedAuthority> gts
+	     =new ArrayList<GrantedAuthority>();
 		
 		List<Role> rs = getRoles();
 		for (Role role : rs) {
-			GrantedAuthority g= new SimpleGrantedAuthority(role.libelle);
+			GrantedAuthority g = 
+			new SimpleGrantedAuthority(role.libelle);
 			gts.add(g);
-		}
-		
+		}	
 		return gts;
+	}
+	public Userd() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override

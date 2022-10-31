@@ -20,8 +20,7 @@ public class MyConfig extends WebSecurityConfigurerAdapter{
 	USerservice uservice;
 	
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {		
 		auth
 		.userDetailsService(uservice)
 		.passwordEncoder(bCryptPasswordEncoder());
@@ -32,15 +31,16 @@ public class MyConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.
 		csrf()
-		.disable()
-		
+		.disable()		
 		.authorizeRequests()
 		.antMatchers("/users").permitAll()
+		.antMatchers("/admin/**").hasAuthority("admin")
+		.antMatchers("/dba/**").hasRole("dba")
+		
 		.anyRequest().authenticated()
 		.and()
 		.formLogin()
-		.permitAll();
-		
+		.permitAll();		
 	}
 	
 	@Bean
